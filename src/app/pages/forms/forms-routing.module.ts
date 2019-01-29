@@ -6,7 +6,7 @@ import { FormInputsComponent } from './form-inputs/form-inputs.component';
 import { FormLayoutsComponent } from './form-layouts/form-layouts.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { ButtonsComponent } from './buttons/buttons.component';
-
+import { CustomersComponent } from './customers/customers.component';
 const routes: Routes = [{
   path: '',
   component: FormsComponent,
@@ -31,6 +31,10 @@ const routes: Routes = [{
       path: 'datepicker',
       component: DatepickerComponent,
     },
+    {
+      path: 'customers',
+      component: CustomersComponent,
+    }
   ],
 }];
 
@@ -51,4 +55,5 @@ export const routedComponents = [
   FormInputsComponent,
   FormLayoutsComponent,
   DatepickerComponent,
+  CustomersComponent
 ];
