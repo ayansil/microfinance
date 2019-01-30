@@ -42,7 +42,12 @@ const routes: Routes = [{
   }, {
     path: 'tables',
     loadChildren: './tables/tables.module#TablesModule',
-  }, {
+  },
+  {
+    path: 'branches',
+    loadChildren: './branches/branches.module#BranchesModule',
+  }
+  , {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
   }, {
