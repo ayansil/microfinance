@@ -5,7 +5,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'My Dashboard',
     icon: 'nb-home',
     link: '/pages/iot-dashboard',
-  }
+  },
+  {
+    title: 'My Branches',
+    icon: 'nb-roller-shades',
+    children: [
+      {
+        title: 'Branch List',
+        link: '/pages/branches/list'
+      },
+      {
+        title: 'Create branch',
+        link: '/pages/branches/add'
+      }
+    ],
+  },
 ];
 
 // export const MENU_ITEMS: NbMenuItem[] = [
