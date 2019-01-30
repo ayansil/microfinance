@@ -17,7 +17,7 @@
     order: 1;
     flex-direction: row-reverse;
   }
-
+  
   .logo-containter {
     display: flex;
     align-items: center;
@@ -52,6 +52,7 @@
       @include nb-ltr(border-left, 1px solid nb-theme(separator));
       @include nb-rtl(border-right, 1px solid nb-theme(separator));
       white-space: nowrap;
+      cursor:pointer;
 
       span {
         font-weight: nb-theme(font-weight-normal);
