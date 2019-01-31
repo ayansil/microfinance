@@ -30,13 +30,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.userService.getUsers()
       .subscribe((users: any) => this.user = users.super);
-      this.menuService.onItemClick()
-      .pipe()
-      .subscribe((item: any) => {
-		if (item.item.data.id === 'logout') {
-      console.log('logging out');
-    }
-	  });
+    
+    // this.menuService.onItemClick()
+    // .pipe()
+    // .subscribe((item: any) => {
+    //   if (item.item.data.id === 'logout') {
+    //     console.log('logging out');
+    //   }
+    // });
   }
 
   toggleSidebar(): boolean {
