@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 @Component({
-  selector: 'branch-list',
-  templateUrl: './branch-list.component.html',
+  selector: 'customers-list',
+  templateUrl: './customers-list.component.html',
   styles: [`
     nb-card {
       transform: translate3d(0, 0, 0);
     }
   `],
 })
-export class BranchListComponent {
+export class CustomersListComponent {
 
 settings = {
     add: {

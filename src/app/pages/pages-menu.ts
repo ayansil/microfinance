@@ -1,6 +1,7 @@
 import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
+
   {
     title: 'My Dashboard',
     icon: 'nb-home',
@@ -14,12 +15,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Branch List',
         link: '/pages/branches/list'
       },
-      {
-        title: 'Create branch',
-        link: '/pages/branches/add'
-      }
+     
+
     ],
   },
+
+  {
+    title: 'My Customers',
+    icon: 'nb-roller-shades',
+    children: [
+      {
+        title: 'Customers List',
+        link: '/pages/customers/list'
+      },
+    ],
+  }
+  
+  
+  
 ];
 
 // export const MENU_ITEMS: NbMenuItem[] = [
