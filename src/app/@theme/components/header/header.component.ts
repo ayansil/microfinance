@@ -4,6 +4,8 @@ import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserData } from '../../../@core/data/users';
 import { AnalyticsService } from '../../../@core/utils';
 import { LayoutService } from '../../../@core/utils';
+import { filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'ngx-header',
@@ -16,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
-  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+  userMenu = [{ title: 'Log out', data: { id: 'logout' }, icon: 'nb-power' }];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -27,7 +29,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+      .subscribe((users: any) => this.user = users.super);
+    
+    // this.menuService.onItemClick()
+    // .pipe()
+    // .subscribe((item: any) => {
+    //   if (item.item.data.id === 'logout') {
+    //     console.log('logging out');
+    //   }
+    // });
   }
 
   toggleSidebar(): boolean {
