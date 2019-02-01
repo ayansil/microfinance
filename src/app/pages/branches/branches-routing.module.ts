@@ -12,10 +12,6 @@ const routes: Routes = [{
   children: [{
     path: 'list',
     component: BranchListComponent,
-  },
-  {
-    path: 'add',
-    component: AddBranchComponent,
   }],
 }];
 

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ngx-customers',
-  templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.scss']
+  template: `<router-outlet></router-outlet>`,
 })
 export class CustomersComponent implements OnInit {
 

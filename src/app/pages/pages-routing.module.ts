@@ -46,8 +46,12 @@ const routes: Routes = [{
   {
     path: 'branches',
     loadChildren: './branches/branches.module#BranchesModule',
-  }
-  , {
+  },
+  {
+    path: 'customers',
+    loadChildren: './customers/customers.module#CustomersModule',
+  },
+   {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
   }, {
