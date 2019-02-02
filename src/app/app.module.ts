@@ -14,8 +14,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,37 +22,6 @@ import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    NbAuthModule.forRoot({
-      forms: {
-        login: {
-          redirectDelay: 0,
-          showMessages: {
-            success: true,
-          },
-        },
-        register: {
-          redirectDelay: 0,
-          showMessages: {
-            success: true,
-          },
-        },
-        requestPassword: {
-          redirectDelay: 0,
-          showMessages: {
-            success: true,
-          },
-        },
-        resetPassword: {
-          redirectDelay: 0,
-          showMessages: {
-            success: true,
-          },
-        },
-        logout: {
-          redirectDelay: 0,
-        },
-      },
-    }),
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),

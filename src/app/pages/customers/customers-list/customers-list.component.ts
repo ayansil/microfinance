@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { CustomerTableData } from '../../../@core/data/customer-table';
+import { LoansRenderComponent} from './loans.render.component'
 @Component({
   selector: 'customers-list',
   templateUrl: './customers-list.component.html',
@@ -28,6 +29,16 @@ settings = {
       confirmDelete: true,
     },
     columns: {
+      loans: {
+        title: 'View Loans',
+        type: 'custom',
+        renderComponent: LoansRenderComponent,
+        defaultValue: "",
+        editor: {
+          type: 'custom',
+          component: LoansRenderComponent,
+        },
+      },
       id: {
         title: 'ID',
         type: 'number',
@@ -40,24 +51,33 @@ settings = {
         title: 'Last Name',
         type: 'string',
       },
-      username: {
-        title: 'Username',
-        type: 'string',
+      address:{
+        title: 'Address',
+        type: 'string' 
       },
-      email: {
-        title: 'E-mail',
-        type: 'string',
+      phone:{
+        title: 'Phone No.',
+        type: 'number'
       },
-      age: {
-        title: 'Age',
-        type: 'number',
+      nominee_firstname:{
+        title: 'Nominee First Name',
+        type: 'string'
       },
+      nominee_lastname:{
+        title: 'Nominee Last Name',
+        type: 'string'
+      },
+      relation_with_nominee:{
+        title: 'Relation With Nominee',
+        type: 'string'
+      }
+      
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
+  constructor(private service: CustomerTableData) {
     const data = this.service.getData();
     this.source.load(data);
   }

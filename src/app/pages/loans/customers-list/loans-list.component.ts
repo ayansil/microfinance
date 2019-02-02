@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { BranchTableData } from '../../../@core/data/branch-table';
+import { LoanTableData } from '../../../@core/data/loan-table';
+import { InstallmentsRenderComponent} from './installments.render.component'
 @Component({
-  selector: 'branch-list',
-  templateUrl: './branch-list.component.html',
+  selector: 'loans-list',
+  templateUrl: './loans-list.component.html',
   styles: [`
     nb-card {
       transform: translate3d(0, 0, 0);
     }
   `],
 })
-export class BranchListComponent {
+export class LoansListComponent {
 
 settings = {
     add: {
@@ -28,24 +29,43 @@ settings = {
       confirmDelete: true,
     },
     columns: {
+      installments: {
+        title: 'View Installments',
+        type: 'custom',
+        renderComponent: InstallmentsRenderComponent,
+        defaultValue: "",
+        editor: {
+          type: 'custom',
+          component: InstallmentsRenderComponent,
+        },
+      },
       id: {
         title: 'ID',
         type: 'number',
       },
-      branchName: {
-        title: 'Branch Name',
-        type: 'string',
+      loan_date: {
+        title: 'Loan Date',
+        type: 'date',
       },
-      address: {
-        title: 'Address',
-        type: 'string',
+      loan_amt: {
+        title: 'Loan Amount',
+        type: 'number',
       },
+      with_sc:{
+        title: 'With S/C',
+        type: 'number' 
+      },
+      loan_cycle:{
+        title: 'Loan Cycle',
+        type: 'number'
+      }
+      
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: BranchTableData) {
+  constructor(private service: LoanTableData) {
     const data = this.service.getData();
     this.source.load(data);
   }
