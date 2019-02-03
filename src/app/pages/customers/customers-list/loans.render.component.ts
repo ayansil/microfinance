@@ -4,7 +4,7 @@ import { ViewCell } from 'ng2-smart-table';
 
 @Component({
   template: `
-    <button class="btn btn-success btn-round btn-xs" style="cursor:pointer;" (click)="viewLoans()">Loans</button>
+    <button class="btn btn-success btn-round btn-xs" style="cursor:pointer;" (click)="viewLoans()">Loans</button>aaaaaaaaaaaaa
   `,
 })
 export class LoansRenderComponent implements OnInit {
@@ -21,7 +21,7 @@ export class LoansRenderComponent implements OnInit {
   }
 
   viewLoans() {
-    alert(this.rowData.id);
+    alert(this.rowData.id+'fffffffffffffff');
   }
 
 

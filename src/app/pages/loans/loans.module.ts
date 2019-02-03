@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
-import { CustomersRoutingModule, routedComponents } from './customers-routing.module';
-import { LoansRenderComponent} from './customers-list/loans.render.component';
+import { loansRoutingModule, routedComponents } from './loans-routing.module';
+import { LoansRenderComponent} from '.customers/customers-list/loans.render.component';
 
 @NgModule({
   imports: [
     ThemeModule,
-    CustomersRoutingModule,
+    loansRoutingModule,
     Ng2SmartTableModule
   ],
   entryComponents: [LoansRenderComponent,],
@@ -16,4 +16,4 @@ import { LoansRenderComponent} from './customers-list/loans.render.component';
     LoansRenderComponent
   ],
 })
-export class CustomersModule { }
+export class loansModule { }
