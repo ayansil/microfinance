@@ -10,7 +10,7 @@ import { MaturityRenderComponent } from './customers-list/maturity.render.compon
     CustomersRoutingModule,
     Ng2SmartTableModule
   ],
-  entryComponents: [LoansRenderComponent,],
+  entryComponents: [LoansRenderComponent,MaturityRenderComponent],
   declarations: [
     ...routedComponents,
     LoansRenderComponent,

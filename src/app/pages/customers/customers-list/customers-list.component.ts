@@ -3,6 +3,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { CustomerTableData } from '../../../@core/data/customer-table';
 import { LoansRenderComponent} from './loans.render.component';
 import { MaturityRenderComponent } from './maturity.render.component';
+
 @Component({
   selector: 'customers-list',
   templateUrl: './customers-list.component.html',
@@ -35,6 +36,8 @@ settings = {
         type: 'custom',
         renderComponent: LoansRenderComponent,
         defaultValue: "",
+        filter:false,
+        sort:false,
         editor: {
           type: 'custom',
           component: LoansRenderComponent,
@@ -44,6 +47,8 @@ settings = {
         title: 'Maturity',
         type: 'custom',
         renderComponent: MaturityRenderComponent,
+        filter:false,
+        sort:false,
         defaultValue: "",
         editor: {
           type: 'custom',

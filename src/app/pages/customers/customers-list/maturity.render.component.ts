@@ -21,7 +21,7 @@ export class MaturityRenderComponent implements OnInit {
   }
 
   viewMaturity() {
-
+    alert("llll");
     this.router.navigate(['/customers']);
   }
 
