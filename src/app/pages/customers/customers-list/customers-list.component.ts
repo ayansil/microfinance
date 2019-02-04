@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CustomerTableData } from '../../../@core/data/customer-table';
-import { LoansRenderComponent} from './loans.render.component'
+import { LoansRenderComponent} from './loans.render.component';
+import { MaturityRenderComponent } from './maturity.render.component';
 @Component({
   selector: 'customers-list',
   templateUrl: './customers-list.component.html',
@@ -37,6 +38,16 @@ settings = {
         editor: {
           type: 'custom',
           component: LoansRenderComponent,
+        },
+      },
+      maturity: {
+        title: 'Maturity',
+        type: 'custom',
+        renderComponent: MaturityRenderComponent,
+        defaultValue: "",
+        editor: {
+          type: 'custom',
+          component: MaturityRenderComponent,
         },
       },
       id: {

@@ -3,7 +3,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CustomersRoutingModule, routedComponents } from './customers-routing.module';
 import { LoansRenderComponent} from './customers-list/loans.render.component';
-
+import { MaturityRenderComponent } from './customers-list/maturity.render.component';
 @NgModule({
   imports: [
     ThemeModule,
@@ -13,7 +13,8 @@ import { LoansRenderComponent} from './customers-list/loans.render.component';
   entryComponents: [LoansRenderComponent,],
   declarations: [
     ...routedComponents,
-    LoansRenderComponent
+    LoansRenderComponent,
+    MaturityRenderComponent
   ],
 })
 export class CustomersModule { }

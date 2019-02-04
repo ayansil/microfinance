@@ -17,3 +17,5 @@ import { LoansRenderComponent} from '.customers/customers-list/loans.render.comp
   ],
 })
 export class loansModule { }
+
+
