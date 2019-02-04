@@ -10,7 +10,7 @@ import { InstallmentsRenderComponent} from './installments.render.component'
       transform: translate3d(0, 0, 0);
     }
   `],
-})
+}) 
 export class LoansListComponent {
 
 settings = {
@@ -34,6 +34,9 @@ settings = {
         type: 'custom',
         renderComponent: InstallmentsRenderComponent,
         defaultValue: "",
+        filter:false,
+        editable:false,
+        sort:false,
         editor: {
           type: 'custom',
           component: InstallmentsRenderComponent,
@@ -45,10 +48,14 @@ settings = {
       },
       loan_date: {
         title: 'Loan Date',
-        type: 'date',
+        type: 'string',
       },
       loan_amt: {
         title: 'Loan Amount',
+        type: 'number',
+      },
+      interest_rate: {
+        title: 'Interest Rate',
         type: 'number',
       },
       with_sc:{
@@ -58,7 +65,16 @@ settings = {
       loan_cycle:{
         title: 'Loan Cycle',
         type: 'number'
+      },
+      ins_no:{
+        title: 'No. Of Installments',
+        type: 'number'
+      },
+      ins_amt:{
+        title: 'Installment Amount',
+        type: 'number'
       }
+
       
     },
   };

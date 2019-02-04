@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { loansComponent } from './loans.component';
-import { loansListComponent } from './loans-list/loans-list.component';
+import { LoansComponent } from './loans.component';
+import { LoansListComponent } from './loans-list/loans-list.component';
 const routes: Routes = [{
-  path: '',
-  component: loansListComponent,
+  path: ':id',
+  component: LoansListComponent,
   
 }];
 
@@ -15,6 +15,6 @@ const routes: Routes = [{
 export class loansRoutingModule { }
 
 export const routedComponents = [
-  loansComponent,
-  loansListComponent
+  LoansComponent,
+  LoansListComponent
 ];

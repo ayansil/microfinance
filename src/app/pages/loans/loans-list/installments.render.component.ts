@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,15 +15,16 @@ export class InstallmentsRenderComponent implements OnInit {
   @Input() value;
   @Input() rowData;
 
-  constructor() {  }
+  constructor(private router:Router) {  }
 
   ngOnInit() {
     this.renderValue = this.value;
   }
 
-  viewLoans() {
-    alert(this.rowData.id);
+  viewInstallments() {
+    
   }
+
 
 
 }

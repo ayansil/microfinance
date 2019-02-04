@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'ngx-loans',
   template: `<router-outlet></router-outlet>`,
 })
-export class loansComponent implements OnInit {
+export class LoansComponent implements OnInit {
 
   constructor() { }
 
