@@ -55,6 +55,11 @@ const routes: Routes = [{
     path: 'loans',
     loadChildren: './loans/loans.module#LoansModule',
   },
+
+  {
+    path: 'maturity',
+    loadChildren: './maturity/maturity.module#MaturityModule',
+  },
    {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',

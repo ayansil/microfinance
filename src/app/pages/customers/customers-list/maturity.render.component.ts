@@ -21,8 +21,8 @@ export class MaturityRenderComponent implements OnInit {
   }
 
   viewMaturity() {
-    alert("llll");
-    this.router.navigate(['/customers']);
+  
+    this.router.navigate(['/pages/maturity', this.rowData.id]);
   }
 
 
