@@ -16,8 +16,8 @@ import { ElectricityData } from './data/electricity';
 import { SmartTableData } from './data/smart-table';
 import { BranchTableData } from './data/branch-table';
 import { CustomerTableData } from './data/customer-table';
-
 import { LoanTableData } from './data/loan-table';
+import { MaturityTableData } from './data/maturity-table';
 
 import { UserActivityData } from './data/user-activity';
 import { OrdersChartData } from './data/orders-chart';
@@ -42,6 +42,7 @@ import { SmartTableService } from './mock/smart-table.service';
 import { BranchTableService } from './mock/branch-table.service';
 import { CustomerTableService } from './mock/customer-table.service';
 import { LoanTableService } from './mock/loan-table.service';
+import { MaturityTableService } from './mock/maturity-table.service';
 import { UserActivityService } from './mock/user-activity.service';
 import { OrdersChartService } from './mock/orders-chart.service';
 import { ProfitChartService } from './mock/profit-chart.service';
@@ -71,6 +72,7 @@ const DATA_SERVICES = [
   { provide: BranchTableData, useClass: BranchTableService },
   { provide: CustomerTableData, useClass: CustomerTableService },
   { provide: LoanTableData, useClass: LoanTableService },
+  { provide: MaturityTableData, useClass: MaturityTableService },
   { provide: UserActivityData, useClass: UserActivityService },
   { provide: OrdersChartData, useClass: OrdersChartService },
   { provide: ProfitChartData, useClass: ProfitChartService },

@@ -56,7 +56,7 @@ settings = {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: LoanTableData) {
+  constructor(private service: MaturityTableData) {
     const data = this.service.getData();
     this.source.load(data);
   }

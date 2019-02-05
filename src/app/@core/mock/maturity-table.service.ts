@@ -18,13 +18,13 @@ export class MaturityTableService extends MaturityTableData {
     days: 1,
     balance: 290,
   },{
-    id: 1,
+    id: 3,
     amount: 10000,
     loan_amt: 11600,
     days: 1,
     balance: 290,
   },{
-    id: 1,
+    id: 4,
     amount: 10000,
     loan_amt: 11600,
     days: 1,
