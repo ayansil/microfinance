@@ -38,17 +38,29 @@ settings = {
         title: 'Amount',
         type: 'number',
       },
-      loan_amt: {
-        title: 'Loan Amount',
+      date:{
+        title: 'Date',
+        type: 'string'
+      },
+      maturity_amt: {
+        title: 'Maturity Amount',
         type: 'number',
       },
       days:{
         title: 'Days',
         type: 'number' 
       },
+      day:{
+        title: 'Day',
+        type: 'number' 
+      },
       balance:{
         title: 'Balance',
         type: 'number'
+      },
+      status:{
+        title: 'Status',
+        type: 'string'
       }
       
     },

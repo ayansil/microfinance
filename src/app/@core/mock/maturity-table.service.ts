@@ -6,30 +6,24 @@ export class MaturityTableService extends MaturityTableData {
 
   data = [{
     id: 1,
-    amount: 10000,
-    loan_amt: 11600,
-    days: 1,
-    balance: 290,
-    
-  },{
-    id: 2,
-    amount: 10000,
-    loan_amt: 11600,
-    days: 1,
-    balance: 290,
-  },{
-    id: 3,
-    amount: 10000,
-    loan_amt: 11600,
-    days: 1,
-    balance: 290,
-  },{
-    id: 4,
-    amount: 10000,
-    loan_amt: 11600,
-    days: 1,
-    balance: 290,
+    amount: 10,
+    date: "2017-09-10",
+    maturity_amt: 5000,
+    days: 450,
+    day: 413,
+    balance: 4130,
+    status: 'Running'
   },
+  {
+    id: 2,
+    amount: 10,
+    date: "2016-09-10",
+    maturity_amt: 5000,
+    days: 450,
+    day: 413,
+    balance: 4130,
+    status: 'Completed'  
+  }
    
 ];
 
