@@ -11,6 +11,8 @@ import {
 
 const routes: Routes = [
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
+  { path: 'authentication', loadChildren: 'app/siteauth/site.module#SiteModule' },
+  
   {
     path: 'auth',
     component: NbAuthComponent,
@@ -41,7 +43,7 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
+  { path: '', redirectTo: 'authentication', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
 

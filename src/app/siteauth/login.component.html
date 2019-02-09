@@ -1,0 +1,25 @@
+<nb-layout>
+    <nb-layout-column>
+            <div class="row">
+                    <div class="col-md-12">
+                            <nb-card>
+                                    <nb-card-header>Login</nb-card-header>
+                                    <nb-card-body>
+                                      <form (submit)="login()"> 
+                                        <div class="form-group">
+                                          <label for="exampleInputEmail1">Username</label>
+                                          <input type="text" name='username' [(ngModel)]="username" class="form-control" id='username' placeholder="Username" required #ctrlusername="ngModel" autocomplete="false"> 
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="exampleInputPassword1">Password</label>
+                                          <input type="password" name='password' [(ngModel)]="password" class="form-control" id="password" placeholder="Password" required #ctrlpassword="ngModel" autocomplete="false">
+                                        </div>
+                                        <button type="submit"  class="btn btn-danger" style='cursor:pointer;'>Submit</button> <a style='margin-left:20px;'>Forgot Password?</a>
+                                      </form>
+                                    </nb-card-body>
+                                  </nb-card>
+                    </div>
+                  </div>
+    </nb-layout-column>
+</nb-layout>
+
