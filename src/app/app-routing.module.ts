@@ -1,5 +1,7 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { AuthenticateVerifierService as AuthGuard } from './siteauth/authenticate.verifier.service';
+import { PagesVerifierService as PageGuard } from './pages/pages.verifier.service';
 import {
   NbAuthComponent,
   NbLoginComponent,
@@ -10,9 +12,9 @@ import {
 } from '@nebular/auth';
 
 const routes: Routes = [
-  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
-  { path: 'authentication', loadChildren: 'app/siteauth/site.module#SiteModule' },
-  
+  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule', canActivate: [PageGuard] },
+  { path: 'authentication', loadChildren: 'app/siteauth/site.module#SiteModule', canActivate: [AuthGuard] },
+   
   {
     path: 'auth',
     component: NbAuthComponent,
@@ -44,7 +46,7 @@ const routes: Routes = [
     ],
   },
   { path: '', redirectTo: 'authentication', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: '**', redirectTo: 'authentication' },
 ];
 
 const config: ExtraOptions = {

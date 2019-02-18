@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { BranchTableData } from '../../../@core/data/branch-table';
+import { BranchListService } from './branch-list.service';
+
 @Component({
   selector: 'branch-list',
   templateUrl: './branch-list.component.html',
@@ -11,6 +12,10 @@ import { BranchTableData } from '../../../@core/data/branch-table';
   `],
 })
 export class BranchListComponent {
+
+  hasPrevious:boolean=false;
+  hasNext:boolean=false;
+  last_page=1;
 
 settings = {
     add: {
@@ -32,7 +37,7 @@ settings = {
         title: 'ID',
         type: 'number',
       },
-      branchName: {
+      branch_name: {
         title: 'Branch Name',
         type: 'string',
       },
@@ -45,10 +50,19 @@ settings = {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: BranchTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
-  }
+  constructor(private branchListService:BranchListService) {
+    this.branchListService.list(1).subscribe((data:any) => {
+      if(data.current_page!=data.last_page)
+        this.hasNext=true;
+      if(data.current_page!=1)
+        this.hasPrevious=true;
+      this.last_page=data.last_page;
+      this.source.load(data.data);
+
+    });
+
+    
+  } 
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {

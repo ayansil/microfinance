@@ -14,7 +14,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { CookieService } from 'ngx-cookie-service';
+import { AuthenticateVerifierService } from './siteauth/authenticate.verifier.service';
+import { PagesVerifierService } from './pages/pages.verifier.service';
+import { ToastrModule } from 'ngx-toastr';
+ 
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,10 +29,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    CookieService,
+    AuthenticateVerifierService,
+    PagesVerifierService
+    
   ],
 })
 export class AppModule {

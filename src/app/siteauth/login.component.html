@@ -14,7 +14,7 @@
                                           <label for="exampleInputPassword1">Password</label>
                                           <input type="password" name='password' [(ngModel)]="password" class="form-control" id="password" placeholder="Password" required #ctrlpassword="ngModel" autocomplete="false">
                                         </div>
-                                        <button type="submit"  class="btn btn-danger" style='cursor:pointer;'>Submit</button> <a style='margin-left:20px;'>Forgot Password?</a>
+                                        <button type="submit" nbButton status="danger" size="medium" [nbSpinner]="authenticating" nbSpinnerStatus="danger" nbSpinnerMessage="" [disabled]="!username || !password" >Submit</button> <a style='margin-left:20px;'>Forgot Password?</a>
                                       </form>
                                     </nb-card-body>
                                   </nb-card>
