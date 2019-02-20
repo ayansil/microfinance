@@ -4,7 +4,34 @@
   </nb-card-header>
 
   <nb-card-body>
+    <div class="xs-12">
+      <button class='btn btn-success btn-sm pull-right' (click)="showAddBranchModal()"  style="margin-bottom:15px;float:right;cursor:pointer;"><i class='fa fa-plus' ></i> Add</button>
+    </div>
+    <nb-card [nbSpinner]="true" nbSpinnerStatus="danger" *ngIf="loadingData">
+      <nb-card-body>
+        Loading Branches.
+      </nb-card-body>
+    </nb-card>
+
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
+    <div class='pagination-container' style="margin-top:15px;">
+
+      <div class="btn-group btn-group-toggle btn-outline-toggle-group" data-toggle="buttons"
+                 [(ngModel)]="current_page" ngbRadioGroup *ngIf="last_page>1" (ngModelChange)="pageChanged($event)">
+
+                 <label ngbButtonLabel class="btn btn-outline-success btn-icon" [style.cursor]="hasPrevious?'pointer':'not-allowed'" (click)="previous()" >
+                    <i class="nb-arrow-left"></i>
+                  </label>
+                 <label  *ngFor="let page of pages" ngbButtonLabel class="btn btn-outline-success" style='cursor:pointer;'>
+                  <input ngbButton type="radio" [value]="page"> {{page}}
+                 </label>
+                 <label ngbButtonLabel class="btn btn-outline-success btn-icon" [style.cursor]="hasNext?'pointer':'not-allowed'" (click)="next()">
+                    <i class="nb-arrow-right"></i>
+                 </label>
+      </div>
+    </div>
+
+
   </nb-card-body>
 </nb-card>

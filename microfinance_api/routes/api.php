@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'AdminController@login');
 
 Route::post('branchlist', 'BranchController@list');
+
+Route::post('addbranch', 'BranchController@add');
