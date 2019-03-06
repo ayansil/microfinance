@@ -4,29 +4,63 @@
   </nb-card-header>
 
   <nb-card-body>
-    <div class="xs-12">
-      <button class='btn btn-success btn-sm pull-right' (click)="showAddBranchModal()"  style="margin-bottom:15px;float:right;cursor:pointer;"><i class='fa fa-plus' ></i> Add</button>
+
+
+    <div class='row' style='margin-bottom:15px;'>
+
+      <div class="col-sm-4 input-group">
+        <input type="text" nbInput fullWidth placeholder="Branch Name" [(ngModel)]="search.branch_name">
+      </div>
+      <div class="col-sm-4 input-group">
+        <input type="text" nbInput fullWidth placeholder="Branch Address" [(ngModel)]="search.address">
+      </div>
+      <div class='col-sm-4'>
+        <button type='button' class='btn btn-sm btn-primary' style='margin-right:15px;' (click)="searchBranch()"><i class='fa fa-search'></i>&nbsp;Search</button>
+        <button type='button' class='btn btn-sm btn-warning' (click)="clearSearch()"><i class='fa fa-times'></i>&nbsp;Clear</button>
+      </div>
+
+
+    </div>
+
+    <div class="row pagination-container"style='margin-bottom:15px;'>
+
+        <div class="btn-group btn-group-toggle btn-outline-toggle-group col-md-10" data-toggle="buttons"
+                   [(ngModel)]="current_page" ngbRadioGroup *ngIf="last_page>1" (ngModelChange)="pageChanged($event)">
+
+                   <label ngbButtonLabel class="btn btn-outline-success btn-icon btn-sm" [style.cursor]="hasPrevious?'pointer':'not-allowed'" (click)="previous()" >
+                      <i class="nb-arrow-left"></i>
+                    </label>
+                   <label  *ngFor="let page of pages" ngbButtonLabel class="btn btn-outline-success btn-sm" style='cursor:pointer;border-radius: 0rem !important;'>
+                    <input ngbButton type="radio" [value]="page"> {{page}}
+                   </label>
+                   <label ngbButtonLabel class="btn btn-outline-success btn-icon btn-sm" [style.cursor]="hasNext?'pointer':'not-allowed'" (click)="next()">
+                      <i class="nb-arrow-right"></i>
+                   </label>
+        </div>
+
+      <div [ngClass]="{'col-md-2':last_page>1,'col-md-12':last_page<=1}"><button class='btn btn-success btn-sm' (click)="showAddBranchModal()"  style="cursor:pointer;float:right;"><i class='fa fa-plus' ></i> Add</button>
+      </div>
     </div>
     <nb-card [nbSpinner]="true" nbSpinnerStatus="danger" *ngIf="loadingData">
       <nb-card-body>
-        Loading Branches.
+        Loading Branches.....
       </nb-card-body>
     </nb-card>
 
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+    <ng2-smart-table [settings]="settings" *ngIf="!loadingData" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
     <div class='pagination-container' style="margin-top:15px;">
 
       <div class="btn-group btn-group-toggle btn-outline-toggle-group" data-toggle="buttons"
                  [(ngModel)]="current_page" ngbRadioGroup *ngIf="last_page>1" (ngModelChange)="pageChanged($event)">
 
-                 <label ngbButtonLabel class="btn btn-outline-success btn-icon" [style.cursor]="hasPrevious?'pointer':'not-allowed'" (click)="previous()" >
+                 <label ngbButtonLabel class="btn btn-outline-success btn-icon btn-sm" [style.cursor]="hasPrevious?'pointer':'not-allowed'" (click)="previous()" >
                     <i class="nb-arrow-left"></i>
                   </label>
-                 <label  *ngFor="let page of pages" ngbButtonLabel class="btn btn-outline-success" style='cursor:pointer;'>
+                 <label  *ngFor="let page of pages" ngbButtonLabel class="btn btn-outline-success btn-sm" style='cursor:pointer; border-radius: 0rem !important;'>
                   <input ngbButton type="radio" [value]="page"> {{page}}
                  </label>
-                 <label ngbButtonLabel class="btn btn-outline-success btn-icon" [style.cursor]="hasNext?'pointer':'not-allowed'" (click)="next()">
+                 <label ngbButtonLabel class="btn btn-outline-success btn-icon btn-sm" [style.cursor]="hasNext?'pointer':'not-allowed'" (click)="next()">
                     <i class="nb-arrow-right"></i>
                  </label>
       </div>

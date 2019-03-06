@@ -70,8 +70,18 @@ export class AddBranchModalComponent {
           if (data.status === 0) {
             this.router.navigate(['/authentication']);
             this.closeModal('');
-          } else {
+          } else if (data.status === 2) {
+            this.toastr.error(data.msg, 'Error!!!', {
+              timeOut: 4000,
+              closeButton: true,
+            });
+          }else {
             this.branchCreated.emit(data);
+
+            this.toastr.success('Branch successfully created', 'Success!!!', {
+              timeOut: 4000,
+              closeButton: true,
+            });
             this.closeModal('Branch Created');
           }
 

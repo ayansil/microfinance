@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { CustomersComponent } from './customers.component';
-import { CustomersListComponent } from './customers-list/customers-list.component';
+
+import { CustomerListComponent } from './customer-list/customer-list.component';
 const routes: Routes = [{
   path: '',
-  component: CustomersListComponent,
-  
+  component: CustomerListComponent,
 }];
 
 @NgModule({
@@ -16,5 +17,5 @@ export class CustomersRoutingModule { }
 
 export const routedComponents = [
   CustomersComponent,
-  CustomersListComponent
+  CustomerListComponent,
 ];

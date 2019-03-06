@@ -1,0 +1,43 @@
+  <div class="modal-header">
+      <span>{{ modalHeader }}</span>
+      <button class="close" aria-label="Close" (click)="closeModal('')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="input-group">
+            <input type="text" placeholder="First Name" [(ngModel)]="rowData.first_name" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerFirstName}" />
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="Last Name" [(ngModel)]="rowData.last_name" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerLastName}" />
+        </div>
+
+        <div class="input-group">
+            <textarea rows="8" placeholder="Customer Address" class="form-control" [(ngModel)]="rowData.address" [ngClass]="{'form-control-danger':invalidCustomerAddress}" ></textarea>
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="Phone" [(ngModel)]="rowData.phone" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerPhone}" />
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="Nominee First Name" [(ngModel)]="rowData.nominee_first_name" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerNomineeFirstName}" />
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="Nominee Last Name" [(ngModel)]="rowData.nominee_last_name" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerNomineeLastName}" />
+        </div>
+
+        <div class="input-group">
+          <input type="text" placeholder="Relation with nominee" [(ngModel)]="rowData.nominee_relation" class="form-control" [ngClass]="{'form-control-danger':invalidCustomerNomineeRelation}" />
+        </div>
+
+        <div class="input-group">
+            <select class="form-control" [(ngModel)]="rowData.branch_id" [ngClass]="{'form-control-danger':invalidCustomerBranch}">
+              <option value=''>--Select--</option>
+              <option *ngFor="let branch of branches" [ngValue]="branch.id" >{{branch.branch_name}}</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button nbButton status="success" size="small" [nbSpinner]="saving" nbSpinnerStatus="danger" nbSpinnerMessage=""  (click)="addCustomer()" >Save customer</button>
+    </div>
+

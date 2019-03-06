@@ -10,10 +10,12 @@ import {Router} from "@angular/router";
 export class CommonService {
 
     private config:Object={
-        base_url:'http://localhost/microfinance/microfinance_api/public/api', //
+        base_url:'http://ebaniks.co.in/microfinance_api/public/api',
+        //http://ebaniks.co.in/microfinance_api/public/api
+        //base_url:'http://localhost/microfinance/microfinance_api/public/api',
     };
 
-    constructor(private cookieService: CookieService,private router: Router) { 
+    constructor(private cookieService: CookieService,private router: Router) {
 
     }
     getConfig(){
@@ -31,6 +33,6 @@ export class CommonService {
     }
 
 
- 
+
 
 }

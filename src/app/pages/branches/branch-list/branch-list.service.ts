@@ -28,22 +28,37 @@ export class BranchListService {
         this.base_url = this.config.base_url;
     }
 
-    list(page) {
+    list(page, search) {
         if (this.commonService.checkLoggedIn()) {
             const token = this.cookieService.get('token');
-            const listData = {
-                'token': token,
-            };
+            let listData = search;
+            listData['token'] = token;
             return this.http.post(this.base_url + '/branchlist?page=' + page, listData, this.httpOptions);
         }
     }
-    add(data){
-        if(this.commonService.checkLoggedIn()){
+    getAllBranches(){
+      if (this.commonService.checkLoggedIn()) {
+        const token = this.cookieService.get('token');
+        let listData={};
+        listData['token'] = token;
+        return this.http.post(this.base_url + '/getallbranches', listData, this.httpOptions);
+      }
+    }
+    add(data) {
+        if (this.commonService.checkLoggedIn()) {
             const token = this.cookieService.get('token');
             const branchData = data;
-            branchData.token= token;
+            branchData.token = token;
             return this.http.post(this.base_url + '/addbranch', branchData, this.httpOptions);
         }
+    }
+    edit(data) {
+      if (this.commonService.checkLoggedIn()) {
+        const token = this.cookieService.get('token');
+        const branchData = data;
+        branchData.token = token;
+        return this.http.post(this.base_url + '/editbranch', branchData, this.httpOptions);
+      }
     }
 
 }

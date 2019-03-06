@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <span>{{ modalHeader }}</span>
+  <button class="close" aria-label="Close" (click)="closeModal('')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="input-group">
+        <input type="text" placeholder="Branch Name" [(ngModel)]="rowData.branch_name" class="form-control" [ngClass]="{'form-control-danger':invalidBranchName}" />
+    </div>
+
+    <div class="input-group">
+        <textarea rows="8" placeholder="Branch Address" class="form-control" [(ngModel)]="rowData.address" [ngClass]="{'form-control-danger':invalidBranchAddress}" ></textarea>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button nbButton status="success" size="small" [nbSpinner]="saving" nbSpinnerStatus="danger" nbSpinnerMessage=""  (click)="editBranch()" >Update Branch</button>
+</div>

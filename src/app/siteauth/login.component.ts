@@ -69,7 +69,7 @@ export class LoginComponent {
   login(){
     this.authenticating = true;
     this.loginService.login(this.username, this.password).subscribe((data: any) => {
-      if (data.status){
+      if (data.status) {
         const token = data.data.token;
         this.cookieService.set('token', token);
         this.router.navigate(['/pages']);
@@ -80,7 +80,7 @@ export class LoginComponent {
 
         });
 
-      }else{
+      }else {
         this.toastr.error('Please check your username and password.', 'Authentication Failed !!!', {
           timeOut: 6000,
           closeButton: true,
