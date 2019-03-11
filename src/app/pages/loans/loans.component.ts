@@ -1,14 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-loans',
+  selector: 'ngx-branches',
   template: `<router-outlet></router-outlet>`,
 })
-export class LoansComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class LoansComponent {
 }

@@ -37,3 +37,10 @@ Route::post('addcustomer', 'CustomerController@add');
 
 Route::post('editcustomer', 'CustomerController@edit');
 
+## loan management
+Route::post('loanlist', 'LoanController@loanlist');
+
+Route::post('addloan', 'LoanController@add');
+
+Route::post('editloan', 'LoanController@edit');
+

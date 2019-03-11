@@ -10,5 +10,9 @@ class Branch extends Model
   {
     return $this->hasMany('App\Customer');
   }
+  public function loans()
+  {
+    return $this->hasMany('App\Loan');
+  }
 
 }

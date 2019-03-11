@@ -1,31 +1,28 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { CustomerListService } from './customer-list.service';
+import { LoanListService } from './loan-list.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddCustomerModalComponent } from './modal/add.customer.modal.component';
+import { AddLoanModalComponent } from './modal/add.loan.modal.component';
 import {Router} from '@angular/router';
 import { ToasterConfig } from 'angular2-toaster';
 import 'style-loader!angular2-toaster/toaster.css';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { ToastrService } from 'ngx-toastr';
-import { CustomerEditComponent} from './CustomerEditComponent';
-import { EditCustomerModalComponent } from './modal/edit.customer.modal.component';
-import { CustomerBranchEditComponent } from './customerBranchEditComponent';
-import { LoansRenderComponent} from './loans.render.component';
-import { MaturityRenderComponent } from './maturity.render.component';
-
+import { LoanEditComponent} from './LoanEditComponent';
+import {EditLoanModalComponent} from './modal/edit.loan.modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'ngx-customer-list',
-  templateUrl: './customer-list.component.html',
+  selector: 'ngx-loan-list',
+  templateUrl: './loan-list.component.html',
   styles: [`
     nb-card {
       transform: translate3d(0, 0, 0);
     }
   `],
 })
-export class CustomerListComponent {
+export class LoanListComponent {
 
   hasPrevious: boolean= false;
   hasNext: boolean= false;
@@ -33,17 +30,9 @@ export class CustomerListComponent {
   current_page= 1;
   pages: any[];
   loadingData = 0;
-  search= {
-    branch_name: '',
-    address: '',
-    first_name: '',
-    last_name: '',
-    nominee_first_name: '',
-    nominee_last_name: '',
-    phone: '',
-    nominee_relation: '',
-  };
-settings = {
+  customer_id = '0';
+  customer_name = '';
+  settings = {
     actions: {
       add: false,
       edit: false,
@@ -58,10 +47,10 @@ settings = {
       edit: {
         title: 'Edit',
         type: 'custom',
-        renderComponent: CustomerEditComponent,
+        renderComponent: LoanEditComponent,
         onComponentInitFunction: (instance) => {
           instance.save.subscribe(row => {
-           this.showEditCustomerModal(row);
+           this.showEditLoanModal(row);
           });
         },
         defaultValue: '',
@@ -69,148 +58,92 @@ settings = {
         sort: false,
         editor: {
           type: 'custom',
-          component: CustomerEditComponent,
+          component: LoanEditComponent,
         },
       },
-      first_name: {
-        title: 'First Name',
+      loan_start_date: {
+        title: 'Loan Start Date',
         type: 'string',
         filter: false,
       },
-      last_name: {
-        title: 'Last Name',
+      loan_amt: {
+        title: 'Loan Amount',
         type: 'string',
         filter: false,
       },
-      address: {
-        title: 'Address',
+      no_of_installments: {
+        title: 'No. of installments',
         type: 'string',
         filter: false,
       },
-      phone: {
-        title: 'Phone',
+      loan_percentage: {
+        title: 'No. of installments',
+        type: 'string',
+        filter: false,
+      },
+      with_sc: {
+        title: 'With S/C',
         type: 'number',
-        filter: false,
       },
-      nominee_first_name: {
-        title: 'Nominee First Name',
-        type: 'string',
-        filter: false,
-      },
-      nominee_last_name: {
-        title: 'Nominee Last Name',
-        type: 'string',
-        filter: false,
-      },
-      nominee_relation: {
-        title: 'Relation with nominee',
-        type: 'string',
-        filter: false,
-      },
-      branch: {
-        title: 'Branch',
-        type: 'custom',
-        renderComponent: CustomerBranchEditComponent,
-        defaultValue: '',
-        filter: false,
-        sort: false,
-        editor: {
-          type: 'custom',
-          component: CustomerBranchEditComponent,
-        },
-      },
-      loans: {
-        title: 'View Loans',
-        type: 'custom',
-        renderComponent: LoansRenderComponent,
-        defaultValue: '',
-        filter:false,
-        sort:false,
-        editor: {
-          type: 'custom',
-          component: LoansRenderComponent,
-        },
-      },
-      maturity: {
-        title: 'Maturity',
-        type: 'custom',
-        renderComponent: MaturityRenderComponent,
-        filter:false,
-        sort:false,
-        defaultValue: '',
-        editor: {
-          type: 'custom',
-          component: MaturityRenderComponent,
-        },
+      loan_cycle: {
+        title: 'Loan Cycle',
+        type: 'number',
       },
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private customerListService: CustomerListService,
+  constructor(private loanListService: LoanListService,
     private modalService: NgbModal,
     private router: Router,
     private toastrService: NbToastrService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private route: ActivatedRoute) {
+    this.customer_id = this.route.snapshot.paramMap.get('id');
+    this.customer_name = this.route.snapshot.paramMap.get('name')
     this.fetchData();
   }
 
-  showAddCustomerModal() {
+  showAddLoanModal() {
 
-    const activeModal = this.modalService.open(AddCustomerModalComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.componentInstance.modalHeader = 'Add Customer';
+    const activeModal = this.modalService.open(AddLoanModalComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.modalHeader = 'Add Loan';
+    activeModal.componentInstance.customer_id = this.customer_id;
     activeModal.result.then((result) => {
-      if (result === 'Customer Created') {
-        this.customerCreated();
+      if (result === 'Loan Created') {
+        this.loanCreated();
       }
     });
 
 
   }
-  showEditCustomerModal(row) {
+  showEditLoanModal(row) {
 
-    const activeModal = this.modalService.open(EditCustomerModalComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.componentInstance.modalHeader = 'Edit Customer';
+    const activeModal = this.modalService.open(EditLoanModalComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.modalHeader = 'Edit Loan';
     activeModal.componentInstance.rowData = row;
     activeModal.result.then((result) => {
-      if (result === 'Customer Edited') {
-        this.customerEdited();
+      if (result === 'Loan Edited') {
+        this.loanEdited();
       }
     });
 
 
   }
-  customerCreated() {
-    this.current_page = 1;
-    this.fetchData();
-  }
-  searchCustomer() {
-    this.current_page = 1;
-    this.fetchData();
-  }
-  clearSearch() {
-    this.search = {
-      branch_name: '',
-      address: '',
-      first_name: '',
-      last_name: '',
-      nominee_first_name: '',
-      nominee_last_name: '',
-      phone: '',
-      nominee_relation: '',
-    };
+  loanCreated() {
     this.current_page = 1;
     this.fetchData();
   }
 
-  customerEdited() {
+
+  loanEdited() {
     this.fetchData();
   }
 
   fetchData() {
     this.loadingData = 1;
-    this.customerListService.list(this.current_page, this.search).subscribe((data: any) => {
+    this.loanListService.list(this.current_page, this.customer_id).subscribe((data: any) => {
       if (data.status === 0) {
         this.router.navigate(['/authentication']);
       } else {
@@ -266,9 +199,9 @@ settings = {
 
   onDeleteConfirm(event): void {
     // tslint:disable-next-line:max-line-length
-    if (window.confirm('Are you sure you want to delete this customer? Once deleted this customer and all its loans/maturities will be unavailable in the system.')) {
+    if (window.confirm('Are you sure you want to delete this loan?')) {
       event.data.is_deleted = 1;
-      this.customerListService.edit(event.data).subscribe((data: any) => {
+      this.loanListService.edit(event.data).subscribe((data: any) => {
         if (data.status === 0) {
           this.toastr.error( 'Your session has expired, please login again.', 'Session Timed Out !!!', {
             timeOut: 4000,
@@ -286,7 +219,7 @@ settings = {
           });
           event.confirm.reject();
         } else {
-          this.toastr.success( 'Customer deleted successfully.', 'Success !!!', {
+          this.toastr.success( 'Loan deleted successfully.', 'Success !!!', {
             timeOut: 4000,
             closeButton: true,
           });

@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
-import { loansRoutingModule, routedComponents } from './loans-routing.module';
-import { InstallmentsRenderComponent} from './loans-list/installments.render.component';
- 
+import { LoansRoutingModule, routedComponents } from './loans-routing.module';
+import { AddLoanModalComponent } from './loan-list/modal/add.loan.modal.component';
+import { EditLoanModalComponent } from './loan-list/modal/edit.loan.modal.component';
+import { LoanEditComponent } from './loan-list/LoanEditComponent';
 @NgModule({
   imports: [
     ThemeModule,
-    loansRoutingModule,
-    Ng2SmartTableModule
+    LoansRoutingModule,
+    Ng2SmartTableModule,
   ],
-  entryComponents: [InstallmentsRenderComponent,],
   declarations: [
     ...routedComponents,
-    InstallmentsRenderComponent
+    AddLoanModalComponent,
+    LoanEditComponent,
+    EditLoanModalComponent,
+  ],
+  entryComponents: [
+    AddLoanModalComponent,
+    LoanEditComponent,
+    EditLoanModalComponent,
   ],
 })
-
 export class LoansModule { }

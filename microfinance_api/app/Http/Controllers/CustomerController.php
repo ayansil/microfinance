@@ -44,6 +44,9 @@ class CustomerController extends Controller
             $query->where('branch_name', 'like', $branch_name.'%');
           });
         }
+        $customers = $customers->whereHas('branch', function ($query){
+          $query->where('is_deleted', '0');
+        });
         $customers = $customers->orderBy('created_at','desc')->with('branch')->paginate(10);
         return $customers;
     }

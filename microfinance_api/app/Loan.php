@@ -4,14 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Loan extends Model
 {
   public function branch()
   {
     return $this->belongsTo('App\Branch');
   }
-  public function loans()
+  public function customer()
   {
-    return $this->hasMany('App\Loan');
+    return $this->belongsTo('App\Customer');
   }
+
 }

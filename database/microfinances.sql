@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2019 at 08:20 AM
+-- Generation Time: Mar 11, 2019 at 09:08 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.40
 
@@ -116,6 +116,27 @@ INSERT INTO `customers` (`id`, `first_name`, `last_name`, `address`, `phone`, `n
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `loans`
+--
+
+CREATE TABLE `loans` (
+  `id` bigint(20) NOT NULL,
+  `loan_amt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `no_of_installments` int(11) NOT NULL,
+  `loan_start_date` date NOT NULL,
+  `loan_percentage` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `with_sc` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `loan_cycle` int(11) NOT NULL,
+  `customer_id` bigint(20) NOT NULL,
+  `branch_id` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tokens`
 --
 
@@ -165,7 +186,8 @@ INSERT INTO `tokens` (`id`, `token`, `admin_id`, `created_at`, `updated_at`) VAL
 (31, 39980, 1, '2019-02-23 08:35:05', '2019-02-23 08:35:05'),
 (32, 39662, 1, '2019-02-23 12:40:32', '2019-02-23 12:40:32'),
 (33, 25142, 1, '2019-02-28 13:42:49', '2019-02-28 13:42:49'),
-(34, 47901, 1, '2019-02-28 13:43:10', '2019-02-28 13:43:10');
+(34, 47901, 1, '2019-02-28 13:43:10', '2019-02-28 13:43:10'),
+(35, 78534, 1, '2019-03-10 07:07:15', '2019-03-10 07:07:15');
 
 --
 -- Indexes for dumped tables
@@ -188,6 +210,14 @@ ALTER TABLE `branches`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
+
+--
+-- Indexes for table `loans`
+--
+ALTER TABLE `loans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`),
   ADD KEY `branch_id` (`branch_id`);
 
 --
@@ -219,10 +249,16 @@ ALTER TABLE `customers`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `loans`
+--
+ALTER TABLE `loans`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables
@@ -233,6 +269,13 @@ ALTER TABLE `tokens`
 --
 ALTER TABLE `customers`
   ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `loans`
+--
+ALTER TABLE `loans`
+  ADD CONSTRAINT `loans_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `loans_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
