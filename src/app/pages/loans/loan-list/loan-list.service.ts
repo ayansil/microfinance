@@ -27,7 +27,15 @@ export class LoanListService {
         this.config = commonService.getConfig();
         this.base_url = this.config.base_url;
     }
-
+    fetchMaxCycle(customer_id) {
+      if (this.commonService.checkLoggedIn()) {
+        const token = this.cookieService.get('token');
+        let listData = {};
+        listData['token'] = token;
+        listData['customer_id'] = customer_id;
+        return this.http.post(this.base_url + '/fetchMaxCycle', listData, this.httpOptions);
+      }
+    }
     list(page,customer_id) {
         if (this.commonService.checkLoggedIn()) {
             const token = this.cookieService.get('token');

@@ -32,6 +32,7 @@ export class LoanListComponent {
   loadingData = 0;
   customer_id = '0';
   customer_name = '';
+  loan_cycle:any;
   settings = {
     actions: {
       add: false,
@@ -77,7 +78,7 @@ export class LoanListComponent {
         filter: false,
       },
       loan_percentage: {
-        title: 'No. of installments',
+        title: 'Loan Percentage',
         type: 'string',
         filter: false,
       },
@@ -101,15 +102,30 @@ export class LoanListComponent {
     private toastr: ToastrService,
     private route: ActivatedRoute) {
     this.customer_id = this.route.snapshot.paramMap.get('id');
-    this.customer_name = this.route.snapshot.paramMap.get('name')
+    this.customer_name = this.route.snapshot.paramMap.get('name');
     this.fetchData();
+    this.fetchMaxCycle();
   }
+  fetchMaxCycle(){
+    this.loadingData = 1;
+    this.loanListService.fetchMaxCycle(this.customer_id).subscribe((data: any) => {
+      if (data && data.status === 0) {
+        this.router.navigate(['/authentication']);
+      } else {
+        this.loadingData = 0;
+        this.loan_cycle = data?data:0;
+      }
 
+    });
+  }
   showAddLoanModal() {
 
     const activeModal = this.modalService.open(AddLoanModalComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Add Loan';
-    activeModal.componentInstance.customer_id = this.customer_id;
+    console.log(this.customer_id);
+    activeModal.componentInstance.customerId = this.customer_id;
+    activeModal.componentInstance.loan_cycle = this.loan_cycle+1;
+    
     activeModal.result.then((result) => {
       if (result === 'Loan Created') {
         this.loanCreated();

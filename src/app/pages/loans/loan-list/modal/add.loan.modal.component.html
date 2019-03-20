@@ -6,22 +6,23 @@
   </div>
   <div class="modal-body">
       <div class="input-group">
-          <input type="text" placeholder="Loan Amount" [(ngModel)]="loan_amt" class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" />
+          <input type="text" placeholder="Loan Amount" [(ngModel)]="loan_amt"  class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" />
       </div>
       <div class="input-group">
           <input type="text" placeholder="No. of installments" [(ngModel)]="no_of_installments" class="form-control" [ngClass]="{'form-control-danger':invalidNumberOfInstallments}" />
       </div>
       <div class="input-group">
-          <input type="text" placeholder="Loan Start Date" [(ngModel)]="loan_start_date" class="form-control" [ngClass]="{'form-control-danger':invalidLoanStartDate}" />
+        
+          <input type="date" format="yyyy-mm-dd" placeholder="Loan Start Date" [(ngModel)]="loan_start_date" class="form-control" [ngClass]="{'form-control-danger':invalidLoanStartDate}" />
       </div>
       <div class="input-group">
           <input type="text" placeholder="Loan Percentage" [(ngModel)]="loan_percentage" class="form-control" [ngClass]="{'form-control-danger':invalidLoanPercentage}" />
       </div>
       <div class="input-group">
-          <input type="text" placeholder="With S/C" [(ngModel)]="with_sc" class="form-control" [ngClass]="{'form-control-danger':invalidWithSC}" />
+          <input type="text" placeholder="With S/C" [(ngModel)]="with_sc" disabled value="{{loan_amt*1+loan_amt*loan_percentage/100}}" class="form-control" [ngClass]="{'form-control-danger':invalidWithSC}" style="cursor:not-allowed;"/>
       </div>
       <div class="input-group">
-          <input type="text" placeholder="Loan Cycle" [(ngModel)]="loan_cycle" class="form-control" [ngClass]="{'form-control-danger':invalidLoanCycle}"/>
+          <input type="text" placeholder="Loan Cycle" [(ngModel)]="loan_cycle" disabled style="cursor:not-allowed;" class="form-control" [ngClass]="{'form-control-danger':invalidLoanCycle}"/>
       </div>
 
 

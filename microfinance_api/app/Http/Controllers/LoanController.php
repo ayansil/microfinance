@@ -13,6 +13,7 @@ class LoanController extends Controller
     public function loanlist(Request $request){
         $all=$request->all();
         $token=$all['token'];
+        $customer_id=$all['customer_id'];
         if(!count(Token::where('token',$token)->get())){
             return response()->json(['status'=>0,'data'=>[]]);
         }
@@ -22,36 +23,56 @@ class LoanController extends Controller
           $query->where('is_deleted', '0');
         });
 
-        $loans = $loans->whereHas('customer', function ($query){
-          $query->where('is_deleted', '0');
+        $loans = $loans->whereHas('customer', function ($query) use ($customer_id){
+          $query->where('is_deleted', '0')->where('customer_id',$customer_id);
         });
         $loans = $loans->orderBy('created_at','desc')->with('branch')->with('customer')->paginate(10);
         return $loans;
     }
 
-    // public function add(Request $request) {
-    //     $all=$request->all();
-    //     $token = $all['token'];
-    //     if(!count(Token::where('token',$token)->get())){
-    //         return response()->json(['status'=>0,'data'=>[]]);
-    //     }
+    public function maxLoanCycle(Request $request) {
+      $all = $request->all();
+      $token=$all['token'];
+      $customer_id=$all['customer_id'];
+      if(!count(Token::where('token',$token)->get())){
+          return response()->json(['status'=>0,'data'=>[]]);
+      }
+      $loans = Loan::where('is_deleted',0);
 
+        $loans = $loans->whereHas('branch', function ($query){
+          $query->where('is_deleted', '0');
+        });
 
-    //     $customer = new Customer;
+        $loans = $loans->whereHas('customer', function ($query) use ($customer_id){
+          $query->where('is_deleted', '0')->where('customer_id',$customer_id);
+        });
+      return $loans->max('loan_cycle');
 
-    //     $customer->first_name = $request->first_name;
-    //     $customer->last_name = $request->last_name;
-    //     $customer->address = $request->address;
-    //     $customer->phone = $request->phone;
-    //     $customer->nominee_first_name = $request->nominee_first_name;
-    //     $customer->nominee_last_name = $request->nominee_last_name;
-    //     $customer->nominee_relation = $request->nominee_relation;
-    //     $customer->branch_id = $request->branch_id;
+    }
 
-    //     $customer->save();
-    //     return $customer;
+    public function add(Request $request) {
+        $all=$request->all();
+        $token = $all['token'];
+        if(!count(Token::where('token',$token)->get())){
+            return response()->json(['status'=>0,'data'=>[]]);
+        }
 
-    // }
+        //$the_customer = App\Customer::where('id',$all['customer_id'])->get();
+        //print_r($the_customer);
+        //exit();
+        $loan = new Loan;
+        $loan->loan_amt = $all['loan_amt'];
+        $loan->no_of_installments = $all['no_of_installments'];
+        $loan->loan_start_date = $all['loan_start_date'];
+        $loan->loan_percentage = $all['loan_percentage'];
+        $loan->with_sc = $all['with_sc'];
+        $loan->loan_cycle = $all['loan_cycle'];
+        $loan->customer_id = $all['customer_id'];
+        $loan->branch_id = 1;
+        $loan->save();
+        return $loan;
+
+    }
 
     // public function edit(Request $request) {
     //   $has_active_loans=0;

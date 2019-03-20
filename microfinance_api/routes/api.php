@@ -21,6 +21,10 @@ Route::get('/user', function (Request $request) {
 ## authentications
 Route::post('login', 'AdminController@login');
 
+## settings
+Route::post('getSettings', 'SettingsController@getSettings');
+
+
 ## branch management
 Route::post('branchlist', 'BranchController@branchlist');
 
@@ -43,4 +47,6 @@ Route::post('loanlist', 'LoanController@loanlist');
 Route::post('addloan', 'LoanController@add');
 
 Route::post('editloan', 'LoanController@edit');
+
+Route::post('fetchMaxCycle', 'LoanController@maxLoanCycle');
 

@@ -8,6 +8,7 @@ import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, Nb
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { ToastrService } from 'ngx-toastr';
 import { LoanListService } from '../loan-list.service';
+import { SettingsService } from '../../../settings/settings.service';
 
 @Component({
   selector: 'ngx-add-loan-modal',
@@ -24,26 +25,55 @@ export class AddLoanModalComponent {
   invalidLoanPercentage = false;
   invalidWithSC = false;
   invalidLoanCycle = false;
+  customerId;
 
-  loan_amt = '';
+  loan_amt = '0';
   no_of_installments = '';
   loan_start_date = '';
   loan_percentage = '';
-  with_sc = '';
-  loan_cycle = '';
+  with_sc = '0';
+  loan_cycle: any;
 
   saving= false;
 
   @Output() loanCreated = new EventEmitter<any>();
 
+  loadingData = 0;
   constructor(private activeModal: NgbActiveModal,
     private toastrService: NbToastrService,
     private toastr: ToastrService,
     private loanlistservice: LoanListService,
-    private router: Router) { }
+    private router: Router,
+    private settingsService: SettingsService) {
+      this.fetchSettings();
+    }
+    
 
+    fetchSettings() {
+      this.loadingData = 1;
+      this.settingsService.getSettings('loan_interest,loan_installments_no').subscribe((data: any) => {
+        if (data.status === 0) {
+          this.router.navigate(['/authentication']);
+        } else {
+          this.loadingData = 0;
+          this.loan_percentage=data[0].value;
+          this.no_of_installments= data[1].value;
+          const today = new Date();
+          let dd = String(today.getDate());
+          let mm = String(today.getMonth() + 1);
+          if ( parseInt(dd, 10) < 10 )
+            dd = '0' + dd;
+          if ( parseInt(mm, 10) < 10 )
+            mm = '0' + mm;
+          const yyyy = today.getFullYear();
+          this.loan_start_date = yyyy + '-'  + mm + '-' + dd;
+        }
+
+      });
+    }
 
   createLoan() {
+    
     const loanAmtRegexp = /^[0-9]+(\.[0-9]{1,2})?$/;
     if (!this.loan_amt) {
       this.invalidLoanAmount = true;
@@ -80,18 +110,9 @@ export class AddLoanModalComponent {
     } else {
       this.invalidNumberOfInstallments = false;
     }
-    const loan_start_date_regexp = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
     if (!this.loan_start_date) {
       this.invalidLoanStartDate = true;
       this.toastr.error('Please enter loan start date', 'Loan Start Date Is Mandatory!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else if (!this.loan_start_date.match(loan_start_date_regexp)) {
-      this.invalidLoanStartDate = true;
-      // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid loan start date of yyyy-mm-dd format',
-       'Loan Start Date Is invalid!!!', {
         timeOut: 4000,
         closeButton: true,
       });
@@ -116,53 +137,20 @@ export class AddLoanModalComponent {
     } else {
       this.invalidLoanPercentage = false;
     }
-    const with_sc_Regexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.with_sc) {
-      this.invalidWithSC = true;
-      this.toastr.error('Please enter some nonzero value in with sc.', 'With SC Is Mandatory!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else if (!this.with_sc.match(with_sc_Regexp)) {
-      this.invalidWithSC = true;
-      // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid with sc',
-       'With SC Is Invalid!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else {
-      this.invalidWithSC = false;
-    }
-    const loan_cycle_regexp = /^\d+$/;
-    if (!this.loan_cycle) {
-      this.invalidLoanCycle = true;
-      this.toastr.error('Please enter loan cycle', 'Loan Cycle Is Mandatory!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else if (!this.loan_cycle.match(loan_cycle_regexp)) {
-      this.invalidLoanCycle = true;
-      // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid loan cycle',
-       'Loan Cycle Is Invalid!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else {
-      this.invalidLoanCycle = false;
-    }
+    
 
     // tslint:disable-next-line:max-line-length
-    if (!this.invalidLoanAmount && !this.invalidNumberOfInstallments && this.invalidLoanStartDate && !this.invalidLoanPercentage && !this.invalidWithSC && !this.invalidLoanCycle) {
+    if (!this.invalidLoanAmount && !this.invalidNumberOfInstallments && !this.invalidLoanPercentage) {
       this.saving = true;
+      let with_sc = this.loan_amt*1+this.loan_amt*this.loan_percentage/100;
       this.loanlistservice.add({
         loan_amt: this.loan_amt,
         no_of_installments: this.no_of_installments,
         loan_start_date: this.loan_start_date,
         loan_percentage: this.loan_percentage,
-        with_sc: this.with_sc,
+        with_sc: with_sc,
         loan_cycle: this.loan_cycle,
+        customer_id:this.customerId,
       }).subscribe((data: any) => {
           this.saving = false;
 
