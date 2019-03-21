@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2019 at 09:08 AM
+-- Generation Time: Mar 21, 2019 at 09:35 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.40
 
@@ -108,10 +108,10 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `first_name`, `last_name`, `address`, `phone`, `nominee_first_name`, `nominee_last_name`, `nominee_relation`, `is_deleted`, `branch_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ayan', 'Sil', 'Baishnabghata Road\n5h', '09434007942', 'Ayana', 'Sil', 'sister', 1, 9, '2019-02-28 14:31:09', '2019-02-28 14:47:03'),
-(2, 'Ayana', 'Silya', 'Baishnabghata Road\n5h', '09434007943', 'ayanajk', 'Sil', 'sister', 1, 10, '2019-02-28 14:45:10', '2019-02-28 14:49:03'),
-(3, 'Ayan', 'Sil', 'Baishnabghata Road\n5h', '09434007942', 'Ayana', 'Sils', 'Brother', 0, 9, '2019-02-28 14:49:38', '2019-02-28 14:49:38'),
-(4, 'Ayana', 'Sil', '1st Floor, 24, KKD Chatterjee Road\n101', '08910871708', 'Shilpa', 'Ghosh', 'spouse', 0, 5, '2019-02-28 14:50:09', '2019-02-28 14:50:09');
+(1, 'Ayanasda', 'Sil', 'Baishnabghata Road\n5h', '09434007942', 'Ayana', 'Sil', 'sister', 0, 9, '2019-02-28 14:31:09', '2019-03-20 19:03:52'),
+(2, 'Ayana', 'Silya', 'Baishnabghata Road\n5h', '09434007943', 'ayanajk', 'Sil', 'sister', 0, 10, '2019-02-28 14:45:10', '2019-03-20 19:02:26'),
+(3, 'Ayanx', 'Silx', 'Baishnabghata Road\n5h', '09434007942', 'Ayana', 'Sils', 'Brother', 0, 9, '2019-02-28 14:49:38', '2019-03-20 19:03:07'),
+(4, 'Ayan', 'Sil', 'Flat No. - 101,\n1st floor, Block - A,\n24, KKD Chatterjee Road', '08910871708', 'Shilpa', 'Ghosh', 'spouse', 0, 5, '2019-02-28 14:50:09', '2019-03-20 13:35:54');
 
 -- --------------------------------------------------------
 
@@ -133,6 +133,36 @@ CREATE TABLE `loans` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `loans`
+--
+
+INSERT INTO `loans` (`id`, `loan_amt`, `no_of_installments`, `loan_start_date`, `loan_percentage`, `with_sc`, `loan_cycle`, `customer_id`, `branch_id`, `created_at`, `updated_at`, `is_deleted`) VALUES
+(1, '10000', 290, '2019-03-21', '16', '11600', 1, 1, 1, '2019-03-20 18:56:31', '0000-00-00 00:00:00', 0),
+(3, '222', 290, '2019-03-21', '16', '257.52', 2, 1, 1, '2019-03-20 16:42:02', '2019-03-20 16:42:02', 0),
+(4, '2222', 290, '2019-03-21', '16', '2577.52', 1, 4, 1, '2019-03-20 16:47:09', '2019-03-20 16:47:09', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `raw_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `raw_name`, `name`, `value`) VALUES
+(1, 'loan_interest', 'Loan Interest (%)', '16'),
+(2, 'loan_installments_no', 'Number of loan installments', '290');
 
 -- --------------------------------------------------------
 
@@ -187,7 +217,8 @@ INSERT INTO `tokens` (`id`, `token`, `admin_id`, `created_at`, `updated_at`) VAL
 (32, 39662, 1, '2019-02-23 12:40:32', '2019-02-23 12:40:32'),
 (33, 25142, 1, '2019-02-28 13:42:49', '2019-02-28 13:42:49'),
 (34, 47901, 1, '2019-02-28 13:43:10', '2019-02-28 13:43:10'),
-(35, 78534, 1, '2019-03-10 07:07:15', '2019-03-10 07:07:15');
+(35, 78534, 1, '2019-03-10 07:07:15', '2019-03-10 07:07:15'),
+(36, 48901, 1, '2019-03-19 14:08:51', '2019-03-19 14:08:51');
 
 --
 -- Indexes for dumped tables
@@ -221,6 +252,12 @@ ALTER TABLE `loans`
   ADD KEY `branch_id` (`branch_id`);
 
 --
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tokens`
 --
 ALTER TABLE `tokens`
@@ -252,13 +289,19 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables

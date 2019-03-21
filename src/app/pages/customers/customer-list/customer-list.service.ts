@@ -52,5 +52,14 @@ export class CustomerListService {
         return this.http.post(this.base_url + '/editcustomer', customerData, this.httpOptions);
       }
     }
+    fetchCustomer(customer_id) {
+      if (this.commonService.checkLoggedIn()) {
+        const token = this.cookieService.get('token');
+        let listData = {};
+        listData['customer_id'] = customer_id;
+        listData['token'] = token;
+        return this.http.post(this.base_url + '/fetchCustomer', listData, this.httpOptions);
+      }
+    }
 
 }

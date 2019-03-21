@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoanEditComponent} from './LoanEditComponent';
 import {EditLoanModalComponent} from './modal/edit.loan.modal.component';
 import { ActivatedRoute } from '@angular/router';
-
+import { CustomerListService} from '../../customers/customer-list/customer-list.service';
 @Component({
   selector: 'ngx-loan-list',
   templateUrl: './loan-list.component.html',
@@ -100,20 +100,33 @@ export class LoanListComponent {
     private router: Router,
     private toastrService: NbToastrService,
     private toastr: ToastrService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private customerListService: CustomerListService) {
     this.customer_id = this.route.snapshot.paramMap.get('id');
-    this.customer_name = this.route.snapshot.paramMap.get('name');
     this.fetchData();
     this.fetchMaxCycle();
+    this.fetchCustomer();
   }
-  fetchMaxCycle(){
+  fetchCustomer() {
+    this.loadingData = 1;
+    this.customerListService.fetchCustomer(this.customer_id).subscribe((data: any) => {
+      if (data && data.status === 0) {
+        this.router.navigate(['/authentication']);
+      } else {
+        this.loadingData = 0;
+        this.customer_name = data ? data.first_name + ' ' + data.last_name : '';
+      }
+
+    });
+  }
+  fetchMaxCycle() {
     this.loadingData = 1;
     this.loanListService.fetchMaxCycle(this.customer_id).subscribe((data: any) => {
       if (data && data.status === 0) {
         this.router.navigate(['/authentication']);
       } else {
         this.loadingData = 0;
-        this.loan_cycle = data?data:0;
+        this.loan_cycle = data ? data : 0;
       }
 
     });
@@ -122,10 +135,8 @@ export class LoanListComponent {
 
     const activeModal = this.modalService.open(AddLoanModalComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Add Loan';
-    console.log(this.customer_id);
     activeModal.componentInstance.customerId = this.customer_id;
-    activeModal.componentInstance.loan_cycle = this.loan_cycle+1;
-    
+    activeModal.componentInstance.loan_cycle = this.loan_cycle + 1;
     activeModal.result.then((result) => {
       if (result === 'Loan Created') {
         this.loanCreated();

@@ -5,7 +5,7 @@ import { LoansComponent } from './loans.component';
 
 import { LoanListComponent } from './loan-list/loan-list.component';
 const routes: Routes = [{
-  path: ':id/:name',
+  path: ':id',
   component: LoanListComponent,
 }];
 

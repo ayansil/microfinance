@@ -74,6 +74,16 @@ class CustomerController extends Controller
         return $customer;
 
     }
+    
+    public function fetchCustomer(Request $request) {
+      $all=$request->all();
+      $token=$all['token'];
+      if(!count(Token::where('token',$token)->get())){
+          return response()->json(['status'=>0,'data'=>[]]);
+      }
+      return $customer = Customer::find($all['customer_id']);
+      
+    }
 
     public function edit(Request $request) {
       $has_active_loans=0;

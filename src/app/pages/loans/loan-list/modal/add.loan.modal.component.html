@@ -4,22 +4,29 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" *ngIf="loadingData===1" >
+      <nb-card [nbSpinner]="true" nbSpinnerStatus="danger">
+          <nb-card-body>
+            Some card content.
+          </nb-card-body>
+        </nb-card>
+  </div>
+  <div class="modal-body" *ngIf="loadingData===0" >
       <div class="input-group">
-          <input type="text" placeholder="Loan Amount" [(ngModel)]="loan_amt"  class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" />
+          <input type="text" placeholder="Loan Amount" [(ngModel)]="loan_amt"  class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" (ngModelChange)="updateForLoanAmt($event)" />
       </div>
       <div class="input-group">
           <input type="text" placeholder="No. of installments" [(ngModel)]="no_of_installments" class="form-control" [ngClass]="{'form-control-danger':invalidNumberOfInstallments}" />
       </div>
       <div class="input-group">
-        
+
           <input type="date" format="yyyy-mm-dd" placeholder="Loan Start Date" [(ngModel)]="loan_start_date" class="form-control" [ngClass]="{'form-control-danger':invalidLoanStartDate}" />
       </div>
       <div class="input-group">
-          <input type="text" placeholder="Loan Percentage" [(ngModel)]="loan_percentage" class="form-control" [ngClass]="{'form-control-danger':invalidLoanPercentage}" />
+          <input type="text" placeholder="Loan Percentage" [(ngModel)]="loan_percentage" class="form-control" [ngClass]="{'form-control-danger':invalidLoanPercentage}" (ngModelChange)="updateForLoaPercentage($event)" />
       </div>
       <div class="input-group">
-          <input type="text" placeholder="With S/C" [(ngModel)]="with_sc" disabled value="{{loan_amt*1+loan_amt*loan_percentage/100}}" class="form-control" [ngClass]="{'form-control-danger':invalidWithSC}" style="cursor:not-allowed;"/>
+          <input type="text" placeholder="With S/C" [(ngModel)]="with_sc" disabled class="form-control" [ngClass]="{'form-control-danger':invalidWithSC}" style="cursor:not-allowed;"/>
       </div>
       <div class="input-group">
           <input type="text" placeholder="Loan Cycle" [(ngModel)]="loan_cycle" disabled style="cursor:not-allowed;" class="form-control" [ngClass]="{'form-control-danger':invalidLoanCycle}"/>
@@ -27,6 +34,6 @@
 
 
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer" *ngIf="loadingData===0">
       <button nbButton status="success" size="small" [nbSpinner]="saving" nbSpinnerStatus="danger" nbSpinnerMessage=""  (click)="createLoan()" >Save Loan</button>
   </div>

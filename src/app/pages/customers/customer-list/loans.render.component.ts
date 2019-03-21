@@ -22,7 +22,7 @@ export class LoansRenderComponent implements OnInit {
   }
 
   viewLoans() {
-    this.router.navigate(['/pages/loans', this.rowData.id, this.rowData.first_name + ' ' + this.rowData.last_name]);
+    this.router.navigate(['/pages/loans', this.rowData.id]);
   }
 
 

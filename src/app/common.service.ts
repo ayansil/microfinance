@@ -9,15 +9,14 @@ import {Router} from '@angular/router';
 })
 export class CommonService {
 
-    private config:Object={
-        base_url: 'http://ebaniks.co.in/microfinance_api/public/api',
-        // base_url: 'http://localhost/microfinance/microfinance_api/public/api',
+    private config: Object = {
+        base_url: 'http://localhost/microfinance/microfinance_api/public/api',
     };
 
-    constructor(private cookieService: CookieService,private router: Router) {
+    constructor(private cookieService: CookieService, private router: Router) {
 
     }
-    getConfig(){
+    getConfig() {
         return this.config;
     }
     checkLoggedIn() {
@@ -27,6 +26,13 @@ export class CommonService {
             this.router.navigate(['/authenticate']);
             return false;
         }
+    }
+    isValidDate (dateString) {
+      const regEx = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateString.match(regEx)) return false;  // Invalid format
+      const d = new Date(dateString);
+      if (Number.isNaN(d.getTime())) return false; // Invalid date
+      return d.toISOString().slice(0, 10) === dateString;
     }
 
 

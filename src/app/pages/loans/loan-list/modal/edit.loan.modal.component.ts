@@ -8,6 +8,7 @@ import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, Nb
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { ToastrService } from 'ngx-toastr';
 import { LoanListService } from '../loan-list.service';
+import { CommonService } from '../../../../common.service';
 
 @Component({
   selector: 'ngx-edit-loan-modal',
@@ -32,12 +33,26 @@ export class EditLoanModalComponent {
     private toastrService: NbToastrService,
     private toastr: ToastrService,
     private loanlistservice: LoanListService,
-    private router: Router) { }
+    private router: Router,
+    private commonService: CommonService) { }
 
+    updateForLoanAmt(newLoanAmt){
+// tslint:disable-next-line: max-line-length
+      const with_sc = parseFloat(this.rowData.loan_amt) + parseFloat(this.rowData.loan_amt) * parseFloat(this.rowData.loan_percentage) / 100;
+      this.rowData.with_sc = with_sc + '';
+
+    }
+
+    updateForLoaPercentage(newLoanPercentage){
+// tslint:disable-next-line: max-line-length
+      const with_sc = parseFloat(this.rowData.loan_amt) + parseFloat(this.rowData.loan_amt) * parseFloat(this.rowData.loan_percentage) / 100;
+      this.rowData.with_sc = with_sc + '';
+
+    }
 
   editLoan() {
     const loanAmtRegexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.rowData.loan_amt) {
+    if (!this.rowData.loan_amt || parseFloat(this.rowData.loan_amt) === 0) {
       this.invalidLoanAmount = true;
       this.toastr.error('Please enter some nonzero value in loan amount.', 'Loan Amount Is Mandatory!!!', {
         timeOut: 4000,
@@ -54,8 +69,9 @@ export class EditLoanModalComponent {
     } else {
       this.invalidLoanAmount = false;
     }
+    this.rowData.no_of_installments += '';
     const no_of_installments_regexp = /^\d+$/;
-    if (!this.rowData.no_of_installments) {
+    if (!this.rowData.no_of_installments || parseInt(this.rowData.no_of_installments, 10) === 0) {
       this.invalidNumberOfInstallments = true;
       this.toastr.error('Please enter no. of installments', 'No. Of Installments Is Mandatory!!!', {
         timeOut: 4000,
@@ -72,17 +88,16 @@ export class EditLoanModalComponent {
     } else {
       this.invalidNumberOfInstallments = false;
     }
-    const loan_start_date_regexp = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
     if (!this.rowData.loan_start_date) {
       this.invalidLoanStartDate = true;
       this.toastr.error('Please enter loan start date', 'Loan Start Date Is Mandatory!!!', {
         timeOut: 4000,
         closeButton: true,
       });
-    } else if (!this.rowData.loan_start_date.match(loan_start_date_regexp)) {
+    } else if (!this.commonService.isValidDate(this.rowData.loan_start_date)) {
       this.invalidLoanStartDate = true;
       // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid loan start date of yyyy-mm-dd format',
+      this.toastr.error( 'Please enter a valid loan start date',
        'Loan Start Date Is invalid!!!', {
         timeOut: 4000,
         closeButton: true,
@@ -91,7 +106,7 @@ export class EditLoanModalComponent {
       this.invalidLoanStartDate = false;
     }
     const loanPercentageRegexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.rowData.loan_percentage) {
+    if (!this.rowData.loan_percentage || parseFloat(this.rowData.loan_percentage) === 0) {
       this.invalidLoanPercentage = true;
       this.toastr.error('Please enter some nonzero value in loan percentage.', 'Loan Percentage Is Mandatory!!!', {
         timeOut: 4000,
@@ -108,45 +123,9 @@ export class EditLoanModalComponent {
     } else {
       this.invalidLoanPercentage = false;
     }
-    const with_sc_Regexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.rowData.with_sc) {
-      this.invalidWithSC = true;
-      this.toastr.error('Please enter some nonzero value in with sc.', 'With SC Is Mandatory!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else if (!this.rowData.with_sc.match(with_sc_Regexp)) {
-      this.invalidWithSC = true;
-      // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid with sc',
-       'With SC Is Invalid!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else {
-      this.invalidWithSC = false;
-    }
-    const loan_cycle_regexp = /^\d+$/;
-    if (!this.rowData.loan_cycle) {
-      this.invalidLoanCycle = true;
-      this.toastr.error('Please enter loan cycle', 'Loan Cycle Is Mandatory!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else if (!this.rowData.loan_cycle.match(loan_cycle_regexp)) {
-      this.invalidLoanCycle = true;
-      // tslint:disable-next-line:max-line-length
-      this.toastr.error( 'Please enter a valid loan cycle',
-       'Loan Cycle Is Invalid!!!', {
-        timeOut: 4000,
-        closeButton: true,
-      });
-    } else {
-      this.invalidLoanCycle = false;
-    }
 
     // tslint:disable-next-line:max-line-length
-    if (!this.invalidLoanAmount && !this.invalidNumberOfInstallments && this.invalidLoanStartDate && !this.invalidLoanPercentage && !this.invalidWithSC && !this.invalidLoanCycle) {
+    if (!this.invalidLoanAmount && !this.invalidNumberOfInstallments && !this.invalidLoanStartDate && !this.invalidLoanPercentage) {
       this.saving = true;
       this.loanlistservice.edit(this.rowData).subscribe((data: any) => {
           this.saving = false;

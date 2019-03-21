@@ -6,16 +6,16 @@
 </div>
 <div class="modal-body">
   <div class="input-group">
-      <input type="text" placeholder="Loan Amount" [(ngModel)]="rowData.loan_amt" class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" />
+      <input type="text" placeholder="Loan Amount" [(ngModel)]="rowData.loan_amt" class="form-control" [ngClass]="{'form-control-danger':invalidLoanAmount}" (ngModelChange)="updateForLoanAmt($event)" />
   </div>
   <div class="input-group">
       <input type="text" placeholder="No. of installments" [(ngModel)]="rowData.no_of_installments" class="form-control" [ngClass]="{'form-control-danger':invalidNumberOfInstallments}" />
   </div>
   <div class="input-group">
-      <input type="text" placeholder="Loan Start Date" [(ngModel)]="rowData.loan_start_date" class="form-control" [ngClass]="{'form-control-danger':invalidLoanStartDate}" />
+      <input type="date" format="yyyy-mm-dd" placeholder="Loan Start Date" [(ngModel)]="rowData.loan_start_date" class="form-control" [ngClass]="{'form-control-danger':invalidLoanStartDate}" />
   </div>
   <div class="input-group">
-      <input type="text" placeholder="Loan Percentage" [(ngModel)]="rowData.loan_percentage" class="form-control" [ngClass]="{'form-control-danger':invalidLoanPercentage}" />
+      <input type="text" placeholder="Loan Percentage" [(ngModel)]="rowData.loan_percentage" class="form-control" [ngClass]="{'form-control-danger':invalidLoanPercentage}" (ngModelChange)="updateForLoaPercentage($event)" />
   </div>
   <div class="input-group">
       <input type="text" placeholder="With S/C" [(ngModel)]="rowData.with_sc" class="form-control" [ngClass]="{'form-control-danger':invalidWithSC}" />

@@ -41,6 +41,8 @@ Route::post('addcustomer', 'CustomerController@add');
 
 Route::post('editcustomer', 'CustomerController@edit');
 
+Route::post('fetchCustomer', 'CustomerController@fetchCustomer');
+
 ## loan management
 Route::post('loanlist', 'LoanController@loanlist');
 

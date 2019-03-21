@@ -74,36 +74,34 @@ class LoanController extends Controller
 
     }
 
-    // public function edit(Request $request) {
-    //   $has_active_loans=0;
-    //   $all=$request->all();
-    //   $token = $all['token'];
-    //   if(!count(Token::where('token',$token)->get())){
-    //     return response()->json(['status'=>0,'data'=>[]]);
-    //   }
+    public function edit(Request $request) {
+      $has_active_installments=0;
+      $all=$request->all();
+      $token = $all['token'];
+      if(!count(Token::where('token',$token)->get())){
+        return response()->json(['status'=>0,'data'=>[]]);
+      }
 
-    //   $customer = Customer::find($all['id']);
-    //   if(!$customer->count()){
-    //     return response()->json(['status'=>2,'msg'=>'No customer found with the supplied id!!']);
-    //   }
-    //   if ($all['is_deleted']==1 && $has_active_loans==1) {
-    //     return response()->json(['status'=>2,'msg'=>'this customer has some active loans / maturities, please close them before deleting it!!']);
-    //   }
+      $loan = Loan::find($all['id']);
+      if(!$loan->count()){
+        return response()->json(['status'=>2,'msg'=>'No loan found with the supplied id!!']);
+      }
+      if ($all['is_deleted']==1 && $has_active_installments==1) {
+        return response()->json(['status'=>2,'msg'=>'this customer has some active loans / maturities, please close them before deleting it!!']);
+      }
 
-    //   $customer->first_name = $request->first_name;
-    //   $customer->last_name = $request->last_name;
-    //   $customer->address = $request->address;
-    //   $customer->phone = $request->phone;
-    //   $customer->nominee_first_name = $request->nominee_first_name;
-    //   $customer->nominee_last_name = $request->nominee_last_name;
-    //   $customer->nominee_relation = $request->nominee_relation;
-    //   $customer->branch_id = $request->branch_id;
-    //   $customer->is_deleted = $all['is_deleted'];
+      $loan->loan_amt = $all['loan_amt'];
+      $loan->no_of_installments = $all['no_of_installments'];
+      $loan->loan_start_date = $all['loan_start_date'];
+      $loan->loan_percentage = $all['loan_percentage'];
+      $loan->with_sc = $all['with_sc'];
+      $loan->loan_cycle = $all['loan_cycle'];
+      $loan->customer_id = $all['customer_id'];
+      $loan->branch_id = 1;
+      $loan->is_deleted = $all['is_deleted'];
 
-
-    //   $customer->save();
-
-    //   return $customer;
-    // }
+      $loan->save();
+      return $loan;
+    }
 
 }

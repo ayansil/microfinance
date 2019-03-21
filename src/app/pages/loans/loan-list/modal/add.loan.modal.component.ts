@@ -9,6 +9,7 @@ import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { ToastrService } from 'ngx-toastr';
 import { LoanListService } from '../loan-list.service';
 import { SettingsService } from '../../../settings/settings.service';
+import { CommonService } from '../../../../common.service';
 
 @Component({
   selector: 'ngx-add-loan-modal',
@@ -42,12 +43,13 @@ export class AddLoanModalComponent {
   constructor(private activeModal: NgbActiveModal,
     private toastrService: NbToastrService,
     private toastr: ToastrService,
+    private commonService: CommonService,
     private loanlistservice: LoanListService,
     private router: Router,
     private settingsService: SettingsService) {
       this.fetchSettings();
     }
-    
+
 
     fetchSettings() {
       this.loadingData = 1;
@@ -56,8 +58,8 @@ export class AddLoanModalComponent {
           this.router.navigate(['/authentication']);
         } else {
           this.loadingData = 0;
-          this.loan_percentage=data[0].value;
-          this.no_of_installments= data[1].value;
+          this.loan_percentage = data[0].value;
+          this.no_of_installments = data[1].value;
           const today = new Date();
           let dd = String(today.getDate());
           let mm = String(today.getMonth() + 1);
@@ -71,11 +73,22 @@ export class AddLoanModalComponent {
 
       });
     }
+    updateForLoanAmt(newLoanAmt){
+      const with_sc = parseFloat(this.loan_amt) + parseFloat(this.loan_amt) * parseFloat(this.loan_percentage) / 100;
+      this.with_sc = with_sc + '';
 
-  createLoan() {
+    }
+
+    updateForLoaPercentage(newLoanPercentage){
+      const with_sc = parseFloat(this.loan_amt) + parseFloat(this.loan_amt) * parseFloat(this.loan_percentage) / 100;
+      this.with_sc = with_sc + '';
+
+    }
     
+    createLoan() {
+
     const loanAmtRegexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.loan_amt) {
+    if (!this.loan_amt || parseFloat(this.loan_amt) === 0) {
       this.invalidLoanAmount = true;
       this.toastr.error('Please enter some nonzero value in loan amount.', 'Loan Amount Is Mandatory!!!', {
         timeOut: 4000,
@@ -93,7 +106,7 @@ export class AddLoanModalComponent {
       this.invalidLoanAmount = false;
     }
     const no_of_installments_regexp = /^\d+$/;
-    if (!this.no_of_installments) {
+    if (!this.no_of_installments || parseInt(this.no_of_installments, 10) === 0) {
       this.invalidNumberOfInstallments = true;
       this.toastr.error('Please enter no. of installments', 'No. Of Installments Is Mandatory!!!', {
         timeOut: 4000,
@@ -116,11 +129,17 @@ export class AddLoanModalComponent {
         timeOut: 4000,
         closeButton: true,
       });
+    } else if (!this.commonService.isValidDate(this.loan_start_date)) {
+        this.invalidLoanStartDate = true;
+        this.toastr.error('Please enter a valid loan start date', 'Loan Start Date Is Invalid!!!', {
+          timeOut: 4000,
+          closeButton: true,
+        });
     } else {
       this.invalidLoanStartDate = false;
     }
     const loanPercentageRegexp = /^[0-9]+(\.[0-9]{1,2})?$/;
-    if (!this.loan_percentage) {
+    if (!this.loan_percentage || parseFloat(this.loan_percentage) === 0) {
       this.invalidLoanPercentage = true;
       this.toastr.error('Please enter some nonzero value in loan percentage.', 'Loan Percentage Is Mandatory!!!', {
         timeOut: 4000,
@@ -137,18 +156,17 @@ export class AddLoanModalComponent {
     } else {
       this.invalidLoanPercentage = false;
     }
-    
 
     // tslint:disable-next-line:max-line-length
-    if (!this.invalidLoanAmount && !this.invalidNumberOfInstallments && !this.invalidLoanPercentage) {
+    if (!this.invalidLoanAmount && !this.invalidLoanStartDate && !this.invalidNumberOfInstallments && !this.invalidLoanPercentage) {
       this.saving = true;
-      let with_sc = this.loan_amt*1+this.loan_amt*this.loan_percentage/100;
+
       this.loanlistservice.add({
         loan_amt: this.loan_amt,
         no_of_installments: this.no_of_installments,
         loan_start_date: this.loan_start_date,
         loan_percentage: this.loan_percentage,
-        with_sc: with_sc,
+        with_sc: this.with_sc,
         loan_cycle: this.loan_cycle,
         customer_id:this.customerId,
       }).subscribe((data: any) => {
